@@ -91,7 +91,7 @@ For each client and endpoint, the service stores the timestamps of allowed reque
 **Why not the alternatives?**
 
 - **Fixed window** (reset every clock minute) is simpler, but allows bursts at the boundary: 5 requests at 0:59 plus 5 at 1:00 is 10 requests in two seconds. A test in this repo checks this burst is rejected.
-- **Token bucket** is good for allowing bursts, but doesn't map exactly to "N requests per minute", and its Retry-After is less intuitive.
+- **Token bucket** controls the average rate and allows bursts, so it doesn't enforce "5 per minute" exactly: a client can make 5 requests at once, then 1 more every 12 seconds as tokens refill, which is 9 requests within one minute.
 - **Sliding window counter** uses constant memory but is an approximation.
 - The log stores at most `limit` timestamps per client (5 or 10), so its memory cost is tiny here, and it is exact.
 
