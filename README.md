@@ -34,7 +34,7 @@ RATE_LIMIT_MODE=shadow  npm start   # allow everyone, but log "[shadow] would bl
 RATE_LIMIT_MODE=off     npm start   # kill switch: no rate limiting
 ```
 
-Shadow mode lets limits be tested on real traffic before blocking anyone, and `off` disables the limiter quickly if it misbehaves, without a code change (an approach recommended by Stripe). Any other value stops the server at startup with an error.
+Shadow mode lets limits be tested on real traffic before blocking anyone, and `off` disables the limiter quickly if it misbehaves, without a code change. Any other value stops the server at startup with an error.
 
 Run the tests:
 
