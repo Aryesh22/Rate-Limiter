@@ -26,6 +26,16 @@ npm run start:redis
 
 To use a different Redis, set `REDIS_URL` yourself, e.g. `REDIS_URL=redis://host:6379 npm start`.
 
+### Modes (optional)
+
+```bash
+RATE_LIMIT_MODE=enforce npm start   # default: block over-limit requests with 429
+RATE_LIMIT_MODE=shadow  npm start   # allow everyone, but log "[shadow] would block ..."
+RATE_LIMIT_MODE=off     npm start   # kill switch: no rate limiting
+```
+
+Shadow mode lets limits be tested on real traffic before blocking anyone, and `off` disables the limiter quickly if it misbehaves, without a code change (an approach recommended by Stripe). Any other value stops the server at startup with an error.
+
 Run the tests:
 
 ```bash
@@ -117,7 +127,9 @@ src/server.js             Express app, routes, storage selection (REDIS_URL)
 src/middleware.js         identifies the client, sets headers, returns 429
 src/rateLimiter.js        in-memory sliding window log
 src/redisRateLimiter.js   Redis sliding window log (Lua script)
+src/mode.js               enforce / shadow / off modes (wraps a limiter)
 test/rateLimiter.test.js  tests for both backends (node:test + supertest)
+test/mode.test.js         tests for the three modes
 ```
 
 ## Tests
