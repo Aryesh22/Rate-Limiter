@@ -134,7 +134,7 @@ test/mode.test.js         tests for the three modes
 
 ## Tests
 
-`npm test` runs 10 tests against the in-memory limiter, plus the same 10 against Redis and a multi-instance test when Redis is running (21 in total). They cover:
+`npm test` runs 10 tests against the in-memory limiter and 3 tests for the modes (13 without Redis). When Redis is running, the same 10 also run against Redis, plus a multi-instance test (24 in total). They cover:
 
 - the 5 and 10 request limits
 - the 200 and 429 response bodies and headers, including the exact Retry-After value
@@ -143,6 +143,7 @@ test/mode.test.js         tests for the three modes
 - no burst at the window boundary
 - 50 concurrent requests → exactly 5 allowed
 - two server instances sharing one Redis limit
+- enforce, shadow and off modes
 
 A fake clock is injected into the limiter, so "waiting 60 seconds" in tests is instant.
 
