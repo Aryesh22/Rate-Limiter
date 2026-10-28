@@ -1,5 +1,3 @@
-// Sliding window log rate limiter.
-// For each key we store the timestamps (ms) of allowed requests in the last window.
 export function createRateLimiter({ limit, windowMs, now = () => Date.now() }) {
   const hits = new Map();
 
@@ -7,11 +5,8 @@ export function createRateLimiter({ limit, windowMs, now = () => Date.now() }) {
     const currentTime = now();
     const windowStart = currentTime - windowMs;
 
-    // Drop timestamps that have slid out of the window
     const timestamps = (hits.get(key) ?? []).filter((t) => t > windowStart);
 
-    // Check and record happen together with no `await` in between,
-    // so concurrent requests can't both see the same count (atomic in Node).
     if (timestamps.length < limit) {
       timestamps.push(currentTime);
       hits.set(key, timestamps);

@@ -1,5 +1,3 @@
-// Express middleware that applies a rate limiter to one route.
-// Clients are identified by the X-API-Key header if sent, otherwise by IP address.
 export function rateLimit(limiter, routeName) {
   return async (req, res, next) => {
     const apiKey = req.get("X-API-Key");
